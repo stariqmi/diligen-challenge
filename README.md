@@ -42,6 +42,6 @@ RESPONSE
 - Changing color of the word that is highlighted in the table
 
 ### Bugs
-- Adding "  " i.e 2 or more whitespace characters will be recognized as a word. **Fixed** `replace(/\s\s+/, '')`
-- In case a single word is highlighted, the pair including the single word is not highlighted. **Fixed**  
+- **Fixed** Adding "  " i.e 2 or more whitespace characters will be recognized as a word. `9db9e4fe18571e408f88b2fa832f872a0a62061d` `replace(/\s\s+/, '')`
+- **Fixed** In case a single word is highlighted, the pair including the single word is not highlighted. `9c33fa4ca8760a5ae7e5736d320aabfc65d6de46`  
 - UX: Icon for sorting action missing, clicking on column header works but is not a good UX
