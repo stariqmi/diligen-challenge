@@ -15,6 +15,11 @@
   color: white;
 }
 
+.highlighted-word {
+  color: #ffd600;
+}
+
+
 .sortable:hover {
   cursor: pointer;
 }

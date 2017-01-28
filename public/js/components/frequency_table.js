@@ -35,6 +35,9 @@ class FrequencyTable extends React.Component {
     let highlighted = e.target.dataset.highlighted == 0 ? 1 : 0;
     e.target.dataset.highlighted = highlighted;
     this.props.highlightWord(word, highlighted);
+
+    if (highlighted) e.target.classList.add('highlighted-word');
+    else e.target.classList.remove('highlighted-word');
   }
 
   render() {

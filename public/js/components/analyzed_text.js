@@ -15,7 +15,7 @@ class AnalyzedText extends React.Component {
     let lines = [];
     let doc = this.props.doc;
     let highlighted = this.props.highlighted;
-
+    
     for (let l in doc) {
       let line = doc[l]
 
