@@ -40730,7 +40730,7 @@
 /* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -40741,6 +40741,12 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _lodash = __webpack_require__(179);
+
+	var _ = _interopRequireWildcard(_lodash);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40766,18 +40772,27 @@
 	    _this.handleWordClick = _this.handleWordClick.bind(_this);
 
 	    _this.state = {
-	      sort: 0
+	      sort: {
+	        type: 'data',
+	        asc: 0
+	      }
 	    };
 	    return _this;
 	  }
 
 	  _createClass(FrequencyTable, [{
-	    key: "handleSortClick",
-	    value: function handleSortClick() {
-	      this.setState({ sort: this.state.sort == 0 ? 1 : 0 });
+	    key: 'handleSortClick',
+	    value: function handleSortClick(e) {
+	      var sort_type = e.target.id.split('-')[1];
+	      this.setState({
+	        sort: {
+	          asc: this.state.sort.asc == 0 ? 1 : 0,
+	          type: sort_type
+	        }
+	      });
 	    }
 	  }, {
-	    key: "handleWordClick",
+	    key: 'handleWordClick',
 	    value: function handleWordClick(e) {
 	      var word = e.target.innerHTML;
 	      var highlighted = e.target.dataset.highlighted == 0 ? 1 : 0;
@@ -40785,56 +40800,69 @@
 	      this.props.highlightWord(word, highlighted);
 	    }
 	  }, {
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 
 	      var data = this.props.data;
+	      var sortable_data = _.map(data, function (v, k) {
+	        return { key: k, value: v };
+	      });
+
+	      var sorted_data = [];
+	      if (this.state.sort.type === 'data') {
+	        sorted_data = _.sortBy(sortable_data, 'key');
+	      } else {
+	        sorted_data = _.sortBy(sortable_data, 'value');
+	      }
+
+	      if (this.state.sort.asc == '0') _.reverse(sorted_data);
+
 	      var rows = [];
 
-	      for (var word in data) {
+	      for (var word in sorted_data) {
 	        rows.push(_react2.default.createElement(
-	          "tr",
+	          'tr',
 	          { key: word },
 	          _react2.default.createElement(
-	            "td",
-	            { onClick: this.handleWordClick, className: "word", "data-highlighted": "0" },
-	            word
+	            'td',
+	            { onClick: this.handleWordClick, className: 'word', 'data-highlighted': '0' },
+	            sorted_data[word].key
 	          ),
 	          _react2.default.createElement(
-	            "td",
+	            'td',
 	            null,
-	            data[word]
+	            sorted_data[word].value
 	          )
 	        ));
 	      }
 
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "col s12 m6 l6" },
+	        'div',
+	        { className: 'col s12 m6 l6' },
 	        _react2.default.createElement(
-	          "table",
+	          'table',
 	          null,
 	          _react2.default.createElement(
-	            "thead",
-	            { className: "title" },
+	            'thead',
+	            { className: 'title' },
 	            _react2.default.createElement(
-	              "tr",
+	              'tr',
 	              null,
 	              _react2.default.createElement(
-	                "th",
-	                { "data-field": this.props.type },
+	                'th',
+	                { 'data-field': this.props.type, className: 'sortable', id: this.props.type + '-data-col', onClick: this.handleSortClick },
 	                capitalize(this.props.type)
 	              ),
 	              _react2.default.createElement(
-	                "th",
-	                { "data-field": "frequency", className: "frequency", onClick: this.handleSortClick },
-	                "Frequency"
+	                'th',
+	                { 'data-field': 'frequency', className: 'sortable', id: this.props.type + '-frequency-col', onClick: this.handleSortClick },
+	                'Frequency'
 	              )
 	            )
 	          ),
 	          _react2.default.createElement(
-	            "tbody",
-	            { className: "regular-text-sec" },
+	            'tbody',
+	            { className: 'regular-text-sec' },
 	            rows
 	          )
 	        )
