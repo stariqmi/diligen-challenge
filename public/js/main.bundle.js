@@ -127,7 +127,7 @@
 	      if (doc == '') return;
 
 	      SuperAgent.post('/analytics').send({ doc: doc }).then(function (res) {
-	        _this2.setState({ doc: doc.split('\n'), analytics: res.body });
+	        _this2.setState(res.body);
 	      }, function (err) {
 	        throw new Error(err);
 	      });

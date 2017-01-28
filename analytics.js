@@ -1,12 +1,15 @@
-function removeNonWordChars(doc) {
-  let cleaned = doc.replace(/[^a-zA-Z\s\n]/g, '').replace(/\s\s+/g, ' ');
-  
-  return cleaned;
+function cleanDoc(doc) {
+  let clean_lines = doc.replace(/\n\n+/g, '\n');
+  let cleaned = clean_lines.replace(/[^a-zA-Z\s\n]/g, '')
+  let lines = cleaned.split('\n')
+
+  return lines.map((line) => {
+    return line.replace(/\s\s+/g, ' ').trim();
+  });
 }
 
-function getWordFrequency(doc) {
+function getWordFrequency(lines) {
   let analytics = {};
-  let lines = removeNonWordChars(doc).split('\n');
 
   for (let i in lines) {
     let line = lines[i];
@@ -21,9 +24,9 @@ function getWordFrequency(doc) {
   return analytics;
 }
 
-function getWordPairFrequency(doc) {
+function getWordPairFrequency(lines) {
   let analytics = {};
-  let lines = removeNonWordChars(doc).split('\n');
+
 
   for (let i in lines) {
     let line = lines[i];
@@ -40,7 +43,16 @@ function getWordPairFrequency(doc) {
   return analytics;
 }
 
-module.exports = {
-  getWordFrequency: getWordFrequency,
-  getWordPairFrequency: getWordPairFrequency
+function analyze(doc) {
+  let lines = cleanDoc(doc);
+  
+  return {
+    analytics: {
+      pairs: getWordPairFrequency(lines),
+      words: getWordFrequency(lines)
+    },
+    doc: lines
+  }
 }
+
+module.exports = analyze

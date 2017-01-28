@@ -43,7 +43,7 @@ class App extends React.Component {
     .send({doc: doc})
     .then(
       (res) => {
-        this.setState({doc: doc.split('\n'), analytics: res.body});
+        this.setState(res.body);
       },
       (err) => {
         throw new Error(err);

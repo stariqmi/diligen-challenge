@@ -1,7 +1,7 @@
 let express = require('express');
 let bodyParser = require('body-parser');
 
-let analytics = require('./analytics');
+let analyze = require('./analytics');
 
 let port = process.env.PORT || 3000;
 
@@ -11,10 +11,7 @@ app.use(bodyParser.json());
 
 app.post('/analytics', (req, res) => {
   let doc = req.body.doc;
-  res.send({
-    words: analytics.getWordFrequency(doc),
-    pairs: analytics.getWordPairFrequency(doc)
-  });
+  res.send(analyze(doc));
 });
 
 app.get('/', (req, res) => {
