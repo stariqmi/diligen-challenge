@@ -44,14 +44,14 @@ class FrequencyTable extends React.Component {
     return (
       <div className="col s12 m6 l6">
         <table>
-          <thead>
+          <thead className="title">
             <tr>
                 <th data-field={this.props.type}>{capitalize(this.props.type)}</th>
                 <th data-field="frequency" className="frequency" onClick={this.handleSortClick}>Frequency</th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="regular-text-sec">
             {rows}
           </tbody>
         </table>

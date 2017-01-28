@@ -16,7 +16,7 @@ class App extends React.Component {
         words: {},
         pairs: {}
       },
-      doc: [],
+      doc: ['# Please enter text to analyze above #'],
       highlighted: []
     };
 

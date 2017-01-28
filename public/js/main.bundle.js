@@ -97,7 +97,7 @@
 	        words: {},
 	        pairs: {}
 	      },
-	      doc: [],
+	      doc: ['# Please enter text to analyze above #'],
 	      highlighted: []
 	    };
 
@@ -40815,7 +40815,7 @@
 	          null,
 	          _react2.default.createElement(
 	            "thead",
-	            null,
+	            { className: "title" },
 	            _react2.default.createElement(
 	              "tr",
 	              null,
@@ -40833,7 +40833,7 @@
 	          ),
 	          _react2.default.createElement(
 	            "tbody",
-	            null,
+	            { className: "regular-text-sec" },
 	            rows
 	          )
 	        )
