@@ -4,6 +4,7 @@ let bodyParser = require('body-parser');
 let analytics = require('./analytics');
 
 let app = express();
+app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/analytics', (req, res) => {
@@ -12,6 +13,10 @@ app.post('/analytics', (req, res) => {
     words: analytics.getWordFrequency(doc),
     pairs: analytics.getWordPairFrequency(doc)
   });
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
 });
 
 app.listen(3000, () => {
