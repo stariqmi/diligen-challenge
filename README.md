@@ -5,7 +5,7 @@ Diligen Application Challenge
 The application server is written in Node (es6).
 
 ### Client
-The UI is written in React(es6) and MaterializeCSS. To make development quicker I used **lodash**, a faster replacement for underscore.js. Ideally I prefer not to use jQuery but for MaterializeCSS, it had to be included. However, the React components do not rely on jQuery.
+The UI is written in **React** (es6) and [MaterializeCSS](http://materializecss.com/). To make development quicker I used **lodash**, a faster replacement for underscore.js. Ideally I prefer not to use jQuery but for MaterializeCSS, it had to be included. However, the React components do not rely on jQuery.
 
 ### Heroku Application
 https://limitless-earth-83903.herokuapp.com/
@@ -16,8 +16,24 @@ https://limitless-earth-83903.herokuapp.com/
 ```
 POST /analytics
 {
-    doc: "diligen application\n diligen fullstack challenge"
+    "doc": "diligen application\ndiligen fullstack challenge"
 }
+
+RESPONSE
+{
+  "words": {
+    "diligen": 2,
+    "application": 1,
+    "fullstack": 1,
+    "challenge": 1
+  },
+  "pairs": {
+    "diligen application": 1,
+    "diligen fullstack": 1,
+    "fullstack challenge": 1
+  }
+}
+
 ```
 - Sorting results
 - Highlighting results
