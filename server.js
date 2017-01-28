@@ -3,6 +3,8 @@ let bodyParser = require('body-parser');
 
 let analytics = require('./analytics');
 
+let port = process.env.PORT || 3000;
+
 let app = express();
 app.use(express.static('public'));
 app.use(bodyParser.json());
@@ -19,6 +21,6 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-app.listen(5000, () => {
-  console.log('Server running on port 5000');
+app.listen(port, () => {
+  console.log('Server running on port ' + port);
 });
