@@ -44,6 +44,6 @@ RESPONSE
 ### Bugs
 - **Fixed** Adding "  " i.e 2 or more whitespace characters will be recognized as a word. `9db9e4fe18571e408f88b2fa832f872a0a62061d` `replace(/\s\s+/, '')`
 - **Fixed** In case a single word is highlighted, the pair including the single word is not highlighted. `9c33fa4ca8760a5ae7e5736d320aabfc65d6de46`
-- **Fixed** `salman     tariq     mirza` should be parsed into `[salman, tariq, mirza, salman tariq, tariq mirza]`
-- **Fixed** `           salman     tariq     mirza    ` should be parsed into `[salman, tariq, mirza, salman tariq, tariq mirza]`
+- **Fixed** `salman     tariq     mirza` should be parsed into `[salman, tariq, mirza, salman tariq, tariq mirza]` `37d147cdf2f4cfc778b57905351643ed5a8c62aa`
+- **Fixed** `           salman     tariq     mirza    ` should be parsed into `[salman, tariq, mirza, salman tariq, tariq mirza]` `136d1b50ce65c16be2ffe50ab99ec7bc5939c52b`
 - UX: Icon for sorting action missing, clicking on column header works but is not a good UX
