@@ -37,3 +37,6 @@ RESPONSE
 ```
 - Sorting results
 - Highlighting results
+
+### Bugs
+- Adding "  " i.e 2 or more whitespace characters will be recognized as a word. **Fixed** `replace(/\s\s+/, '')`  
