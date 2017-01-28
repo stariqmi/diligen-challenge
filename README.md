@@ -40,3 +40,4 @@ RESPONSE
 
 ### Bugs
 - Adding "  " i.e 2 or more whitespace characters will be recognized as a word. **Fixed** `replace(/\s\s+/, '')`  
+- UX: Icon for sorting action missing, clicking on column header works but is not a good UX

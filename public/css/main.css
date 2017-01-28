@@ -6,6 +6,10 @@
   color: #7cb342;
 }
 
+.word:hover {
+  cursor: pointer;
+}
+
 .highlighted {
   background-color: #fdd835;
   color: white;
