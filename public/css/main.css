@@ -1,5 +1,13 @@
-.title {
+.title, .regular-text {
   color: #fb8c00;
+}
+
+.title-sec {
+  color: #7cb342;
+}
+
+.frequency:hover {
+  cursor: pointer;
 }
 
 /* label color */

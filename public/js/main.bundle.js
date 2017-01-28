@@ -70,6 +70,10 @@
 
 	var _frequency_table2 = _interopRequireDefault(_frequency_table);
 
+	var _analyzed_text = __webpack_require__(190);
+
+	var _analyzed_text2 = _interopRequireDefault(_analyzed_text);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -89,8 +93,11 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
 	    _this.state = {
-	      words: {},
-	      pairs: {}
+	      analytics: {
+	        words: {},
+	        pairs: {}
+	      },
+	      doc: []
 	    };
 
 	    _this.handleAnalyzeClick = _this.handleAnalyzeClick.bind(_this);
@@ -105,7 +112,7 @@
 	      var doc = document.querySelector('textarea').value;
 
 	      SuperAgent.post('/analytics').send({ doc: doc }).then(function (res) {
-	        _this2.setState(res.body);
+	        _this2.setState({ doc: doc.split('\n'), analytics: res.body });
 	      }, function (err) {
 	        throw new Error(err);
 	      });
@@ -159,16 +166,17 @@
 	              _react2.default.createElement(
 	                'a',
 	                { className: 'waves-effect waves-light btn analyze-button', onClick: this.handleAnalyzeClick },
-	                'button'
+	                'Analyze Document'
 	              )
 	            )
 	          )
 	        ),
+	        _react2.default.createElement(_analyzed_text2.default, { doc: this.state.doc }),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'row' },
-	          _react2.default.createElement(_frequency_table2.default, { type: 'words', data: this.state.words }),
-	          _react2.default.createElement(_frequency_table2.default, { type: 'words', data: this.state.pairs })
+	          _react2.default.createElement(_frequency_table2.default, { type: 'words', data: this.state.analytics.words }),
+	          _react2.default.createElement(_frequency_table2.default, { type: 'words', data: this.state.analytics.pairs })
 	        )
 	      );
 	    }
@@ -40737,14 +40745,28 @@
 	  function FrequencyTable() {
 	    _classCallCheck(this, FrequencyTable);
 
-	    return _possibleConstructorReturn(this, (FrequencyTable.__proto__ || Object.getPrototypeOf(FrequencyTable)).call(this));
+	    var _this = _possibleConstructorReturn(this, (FrequencyTable.__proto__ || Object.getPrototypeOf(FrequencyTable)).call(this));
+
+	    _this.handleSortClick = _this.handleSortClick.bind(_this);
+
+	    _this.state = {
+	      sort: 0
+	    };
+	    return _this;
 	  }
 
 	  _createClass(FrequencyTable, [{
+	    key: "handleSortClick",
+	    value: function handleSortClick() {
+	      this.setState({ sort: this.state.sort == 0 ? 1 : 0 });
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
+
 	      var data = this.props.data;
 	      var rows = [];
+
 	      for (var word in data) {
 	        rows.push(_react2.default.createElement(
 	          "tr",
@@ -40767,7 +40789,7 @@
 	        { className: "col s12 m6 l6" },
 	        _react2.default.createElement(
 	          "table",
-	          { className: "centered" },
+	          null,
 	          _react2.default.createElement(
 	            "thead",
 	            null,
@@ -40781,7 +40803,7 @@
 	              ),
 	              _react2.default.createElement(
 	                "th",
-	                { "data-field": "frequency" },
+	                { "data-field": "frequency", className: "frequency", onClick: this.handleSortClick },
 	                "Frequency"
 	              )
 	            )
@@ -40800,6 +40822,78 @@
 	}(_react2.default.Component);
 
 	exports.default = FrequencyTable;
+
+/***/ },
+/* 190 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var AnalyzedText = function (_React$Component) {
+	  _inherits(AnalyzedText, _React$Component);
+
+	  function AnalyzedText() {
+	    _classCallCheck(this, AnalyzedText);
+
+	    return _possibleConstructorReturn(this, (AnalyzedText.__proto__ || Object.getPrototypeOf(AnalyzedText)).call(this));
+	  }
+
+	  _createClass(AnalyzedText, [{
+	    key: "render",
+	    value: function render() {
+	      var doc = [];
+
+	      for (var line in this.props.doc) {
+	        doc.push(_react2.default.createElement(
+	          "p",
+	          { key: line, className: "regular-text" },
+	          this.props.doc[line]
+	        ));
+	      }
+
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "row" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "col s12 m12 l12" },
+	          _react2.default.createElement(
+	            "p",
+	            { className: "title-sec" },
+	            "Analyzed Document"
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "col s12 m12 l12" },
+	          doc
+	        )
+	      );
+	    }
+	  }]);
+
+	  return AnalyzedText;
+	}(_react2.default.Component);
+
+	exports.default = AnalyzedText;
 
 /***/ }
 /******/ ]);

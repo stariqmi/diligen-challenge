@@ -5,14 +5,18 @@ import * as _ from 'lodash';
 import * as SuperAgent from 'superagent';
 
 import FrequencyTable from './components/frequency_table.js';
+import AnalyzedText from './components/analyzed_text.js'
 
 class App extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      words: {},
-      pairs: {}
+      analytics: {
+        words: {},
+        pairs: {}
+      },
+      doc: []
     };
 
     this.handleAnalyzeClick = this.handleAnalyzeClick.bind(this);
@@ -25,7 +29,7 @@ class App extends React.Component {
     .send({doc: doc})
     .then(
       (res) => {
-        this.setState(res.body);
+        this.setState({doc: doc.split('\n'), analytics: res.body});
       },
       (err) => {
         throw new Error(err);
@@ -53,14 +57,16 @@ class App extends React.Component {
         <div className="row">
           <div className="row col s12 m12 l12">
             <center>
-              <a className="waves-effect waves-light btn analyze-button" onClick={this.handleAnalyzeClick}>button</a>
+              <a className="waves-effect waves-light btn analyze-button" onClick={this.handleAnalyzeClick}>Analyze Document</a>
             </center>
           </div>
         </div>
 
+        <AnalyzedText doc={this.state.doc} />
+
         <div className="row">
-          <FrequencyTable type="words" data={this.state.words}/>
-          <FrequencyTable type="words" data={this.state.pairs}/>
+          <FrequencyTable type="words" data={this.state.analytics.words}/>
+          <FrequencyTable type="words" data={this.state.analytics.pairs}/>
         </div>
       </div>
     );
