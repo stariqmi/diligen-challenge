@@ -66,6 +66,10 @@
 
 	var SuperAgent = _interopRequireWildcard(_superagent);
 
+	var _frequency_table = __webpack_require__(189);
+
+	var _frequency_table2 = _interopRequireDefault(_frequency_table);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -84,6 +88,11 @@
 
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
+	    _this.state = {
+	      words: {},
+	      pairs: {}
+	    };
+
 	    _this.handleAnalyzeClick = _this.handleAnalyzeClick.bind(_this);
 	    return _this;
 	  }
@@ -91,10 +100,12 @@
 	  _createClass(App, [{
 	    key: 'handleAnalyzeClick',
 	    value: function handleAnalyzeClick() {
+	      var _this2 = this;
+
 	      var doc = document.querySelector('textarea').value;
 
 	      SuperAgent.post('/analytics').send({ doc: doc }).then(function (res) {
-	        console.log(res);
+	        _this2.setState(res.body);
 	      }, function (err) {
 	        throw new Error(err);
 	      });
@@ -152,6 +163,12 @@
 	              )
 	            )
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(_frequency_table2.default, { type: 'words', data: this.state.words }),
+	          _react2.default.createElement(_frequency_table2.default, { type: 'words', data: this.state.pairs })
 	        )
 	      );
 	    }
@@ -40685,6 +40702,104 @@
 	  if (err && 'timeout' in err && err.code == 'ECONNABORTED') return true;
 	  return false;
 	};
+
+/***/ },
+/* 189 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function capitalize(str) {
+	  return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+	var FrequencyTable = function (_React$Component) {
+	  _inherits(FrequencyTable, _React$Component);
+
+	  function FrequencyTable() {
+	    _classCallCheck(this, FrequencyTable);
+
+	    return _possibleConstructorReturn(this, (FrequencyTable.__proto__ || Object.getPrototypeOf(FrequencyTable)).call(this));
+	  }
+
+	  _createClass(FrequencyTable, [{
+	    key: "render",
+	    value: function render() {
+	      var data = this.props.data;
+	      var rows = [];
+	      for (var word in data) {
+	        rows.push(_react2.default.createElement(
+	          "tr",
+	          { key: word },
+	          _react2.default.createElement(
+	            "td",
+	            null,
+	            word
+	          ),
+	          _react2.default.createElement(
+	            "td",
+	            null,
+	            data[word]
+	          )
+	        ));
+	      }
+
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "col s12 m6 l6" },
+	        _react2.default.createElement(
+	          "table",
+	          { className: "centered" },
+	          _react2.default.createElement(
+	            "thead",
+	            null,
+	            _react2.default.createElement(
+	              "tr",
+	              null,
+	              _react2.default.createElement(
+	                "th",
+	                { "data-field": this.props.type },
+	                capitalize(this.props.type)
+	              ),
+	              _react2.default.createElement(
+	                "th",
+	                { "data-field": "frequency" },
+	                "Frequency"
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "tbody",
+	            null,
+	            rows
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return FrequencyTable;
+	}(_react2.default.Component);
+
+	exports.default = FrequencyTable;
 
 /***/ }
 /******/ ]);

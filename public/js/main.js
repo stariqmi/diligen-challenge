@@ -4,9 +4,16 @@ import 'materialize-css/js/materialize.js';
 import * as _ from 'lodash';
 import * as SuperAgent from 'superagent';
 
+import FrequencyTable from './components/frequency_table.js';
+
 class App extends React.Component {
   constructor() {
     super();
+
+    this.state = {
+      words: {},
+      pairs: {}
+    };
 
     this.handleAnalyzeClick = this.handleAnalyzeClick.bind(this);
   }
@@ -18,7 +25,7 @@ class App extends React.Component {
     .send({doc: doc})
     .then(
       (res) => {
-        console.log(res);
+        this.setState(res.body);
       },
       (err) => {
         throw new Error(err);
@@ -49,6 +56,11 @@ class App extends React.Component {
               <a className="waves-effect waves-light btn analyze-button" onClick={this.handleAnalyzeClick}>button</a>
             </center>
           </div>
+        </div>
+
+        <div className="row">
+          <FrequencyTable type="words" data={this.state.words}/>
+          <FrequencyTable type="words" data={this.state.pairs}/>
         </div>
       </div>
     );
