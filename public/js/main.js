@@ -16,10 +16,23 @@ class App extends React.Component {
         words: {},
         pairs: {}
       },
-      doc: []
+      doc: [],
+      highlighted: []
     };
 
     this.handleAnalyzeClick = this.handleAnalyzeClick.bind(this);
+  }
+
+  highlightWord(word, highlight) {
+    let highlighted = _.uniq(this.state.highlighted)
+
+    if (highlight == 0) { // Remove highlight
+      this.setState({highlighted: _.pull(highlighted, word)});
+    }
+    else {
+      highlighted.push(word);
+      this.setState({highlighted: highlighted});
+    }
   }
 
   handleAnalyzeClick() {
@@ -62,11 +75,11 @@ class App extends React.Component {
           </div>
         </div>
 
-        <AnalyzedText doc={this.state.doc} />
+        <AnalyzedText doc={this.state.doc} highlighted={this.state.highlighted}/>
 
         <div className="row">
-          <FrequencyTable type="words" data={this.state.analytics.words}/>
-          <FrequencyTable type="words" data={this.state.analytics.pairs}/>
+          <FrequencyTable type="words" data={this.state.analytics.words} highlightWord={this.highlightWord.bind(this)} />
+          <FrequencyTable type="words" data={this.state.analytics.pairs} highlightWord={this.highlightWord.bind(this)} />
         </div>
       </div>
     );

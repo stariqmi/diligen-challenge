@@ -6,6 +6,11 @@
   color: #7cb342;
 }
 
+.highlighted {
+  background-color: #fdd835;
+  color: white;
+}
+
 .frequency:hover {
   cursor: pointer;
 }

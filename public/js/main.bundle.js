@@ -97,7 +97,8 @@
 	        words: {},
 	        pairs: {}
 	      },
-	      doc: []
+	      doc: [],
+	      highlighted: []
 	    };
 
 	    _this.handleAnalyzeClick = _this.handleAnalyzeClick.bind(_this);
@@ -105,6 +106,19 @@
 	  }
 
 	  _createClass(App, [{
+	    key: 'highlightWord',
+	    value: function highlightWord(word, highlight) {
+	      var highlighted = _.uniq(this.state.highlighted);
+
+	      if (highlight == 0) {
+	        // Remove highlight
+	        this.setState({ highlighted: _.pull(highlighted, word) });
+	      } else {
+	        highlighted.push(word);
+	        this.setState({ highlighted: highlighted });
+	      }
+	    }
+	  }, {
 	    key: 'handleAnalyzeClick',
 	    value: function handleAnalyzeClick() {
 	      var _this2 = this;
@@ -171,12 +185,12 @@
 	            )
 	          )
 	        ),
-	        _react2.default.createElement(_analyzed_text2.default, { doc: this.state.doc }),
+	        _react2.default.createElement(_analyzed_text2.default, { doc: this.state.doc, highlighted: this.state.highlighted }),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'row' },
-	          _react2.default.createElement(_frequency_table2.default, { type: 'words', data: this.state.analytics.words }),
-	          _react2.default.createElement(_frequency_table2.default, { type: 'words', data: this.state.analytics.pairs })
+	          _react2.default.createElement(_frequency_table2.default, { type: 'words', data: this.state.analytics.words, highlightWord: this.highlightWord.bind(this) }),
+	          _react2.default.createElement(_frequency_table2.default, { type: 'words', data: this.state.analytics.pairs, highlightWord: this.highlightWord.bind(this) })
 	        )
 	      );
 	    }
@@ -40748,6 +40762,7 @@
 	    var _this = _possibleConstructorReturn(this, (FrequencyTable.__proto__ || Object.getPrototypeOf(FrequencyTable)).call(this));
 
 	    _this.handleSortClick = _this.handleSortClick.bind(_this);
+	    _this.handleWordClick = _this.handleWordClick.bind(_this);
 
 	    _this.state = {
 	      sort: 0
@@ -40759,6 +40774,14 @@
 	    key: "handleSortClick",
 	    value: function handleSortClick() {
 	      this.setState({ sort: this.state.sort == 0 ? 1 : 0 });
+	    }
+	  }, {
+	    key: "handleWordClick",
+	    value: function handleWordClick(e) {
+	      var word = e.target.innerHTML;
+	      var highlighted = e.target.dataset.highlighted == 0 ? 1 : 0;
+	      e.target.dataset.highlighted = highlighted;
+	      this.props.highlightWord(word, highlighted);
 	    }
 	  }, {
 	    key: "render",
@@ -40773,7 +40796,7 @@
 	          { key: word },
 	          _react2.default.createElement(
 	            "td",
-	            null,
+	            { onClick: this.handleWordClick, className: "word", "data-highlighted": "0" },
 	            word
 	          ),
 	          _react2.default.createElement(
@@ -40857,16 +40880,27 @@
 	  }
 
 	  _createClass(AnalyzedText, [{
+	    key: "createDangerousInnerHTML",
+	    value: function createDangerousInnerHTML(innerHTML) {
+	      return {
+	        __html: innerHTML
+	      };
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
-	      var doc = [];
+	      var lines = [];
+	      var doc = this.props.doc;
+	      var highlighted = this.props.highlighted;
 
-	      for (var line in this.props.doc) {
-	        doc.push(_react2.default.createElement(
-	          "p",
-	          { key: line, className: "regular-text" },
-	          this.props.doc[line]
-	        ));
+	      for (var l in doc) {
+	        var line = doc[l];
+
+	        for (var h in highlighted) {
+	          line = line.replace(highlighted[h], "<span class=\"highlighted\">" + highlighted[h] + "</span>");
+	        }
+
+	        lines.push(line);
 	      }
 
 	      return _react2.default.createElement(
@@ -40876,15 +40910,15 @@
 	          "div",
 	          { className: "col s12 m12 l12" },
 	          _react2.default.createElement(
-	            "p",
+	            "h5",
 	            { className: "title-sec" },
 	            "Analyzed Document"
 	          )
 	        ),
 	        _react2.default.createElement(
 	          "div",
-	          { className: "col s12 m12 l12" },
-	          doc
+	          { className: "col s12 m12 l12 regular-text" },
+	          _react2.default.createElement("p", { dangerouslySetInnerHTML: this.createDangerousInnerHTML(lines.join('<br/>')) })
 	        )
 	      );
 	    }

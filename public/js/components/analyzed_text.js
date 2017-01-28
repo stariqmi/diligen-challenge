@@ -5,20 +5,34 @@ class AnalyzedText extends React.Component {
     super();
   }
 
-  render() {
-    let doc = [];
+  createDangerousInnerHTML(innerHTML) {
+    return {
+      __html: innerHTML
+    }
+  }
 
-    for (let line in this.props.doc) {
-      doc.push(<p key={line} className="regular-text">{this.props.doc[line]}</p>);
+  render() {
+    let lines = [];
+    let doc = this.props.doc;
+    let highlighted = this.props.highlighted;
+
+    for (let l in doc) {
+      let line = doc[l]
+
+      for (let h in highlighted) {
+        line = line.replace(highlighted[h], `<span class="highlighted">${highlighted[h]}</span>`);
+      }
+
+      lines.push(line);
     }
 
     return (
       <div className="row">
         <div className="col s12 m12 l12">
-          <p className="title-sec">Analyzed Document</p>
+          <h5 className="title-sec">Analyzed Document</h5>
         </div>
-        <div className="col s12 m12 l12">
-          {doc}
+        <div className="col s12 m12 l12 regular-text">
+          <p dangerouslySetInnerHTML={this.createDangerousInnerHTML(lines.join('<br/>'))}></p>
         </div>
       </div>
     )
