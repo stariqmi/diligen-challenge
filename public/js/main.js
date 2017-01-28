@@ -37,6 +37,7 @@ class App extends React.Component {
 
   handleAnalyzeClick() {
     let doc = document.querySelector('textarea').value;
+    if (doc == '') return;
 
     SuperAgent.post('/analytics')
     .send({doc: doc})

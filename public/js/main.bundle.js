@@ -124,6 +124,7 @@
 	      var _this2 = this;
 
 	      var doc = document.querySelector('textarea').value;
+	      if (doc == '') return;
 
 	      SuperAgent.post('/analytics').send({ doc: doc }).then(function (res) {
 	        _this2.setState({ doc: doc.split('\n'), analytics: res.body });
