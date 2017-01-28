@@ -1,5 +1,7 @@
 function removeNonWordChars(doc) {
-  return doc.replace(/[^a-zA-Z\s\n]/, '').replace(/\s\s+/, ' ');
+  let cleaned = doc.replace(/[^a-zA-Z\s\n]/g, '').replace(/\s\s+/g, ' ');
+  
+  return cleaned;
 }
 
 function getWordFrequency(doc) {
