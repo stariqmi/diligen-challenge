@@ -40881,7 +40881,7 @@
 /* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -40911,45 +40911,51 @@
 	  }
 
 	  _createClass(AnalyzedText, [{
-	    key: "createDangerousInnerHTML",
+	    key: 'createDangerousInnerHTML',
 	    value: function createDangerousInnerHTML(innerHTML) {
 	      return {
 	        __html: innerHTML
 	      };
 	    }
 	  }, {
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      var lines = [];
 	      var doc = this.props.doc;
-	      var highlighted = this.props.highlighted;
+
+	      // Takes care of overlapping scenario
+	      var highlighted = _.sortBy(this.props.highlighted, function (word) {
+	        return word.split(' ').length;
+	      });
+
+	      _.reverse(highlighted);
 
 	      for (var l in doc) {
 	        var line = doc[l];
 
 	        for (var h in highlighted) {
-	          line = line.replace(highlighted[h], "<span class=\"highlighted\">" + highlighted[h] + "</span>");
+	          line = line.replace(highlighted[h], '<span class="highlighted">' + highlighted[h] + '</span>');
 	        }
 
 	        lines.push(line);
 	      }
 
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "row" },
+	        'div',
+	        { className: 'row' },
 	        _react2.default.createElement(
-	          "div",
-	          { className: "col s12 m12 l12" },
+	          'div',
+	          { className: 'col s12 m12 l12' },
 	          _react2.default.createElement(
-	            "h5",
-	            { className: "title-sec" },
-	            "Analyzed Document"
+	            'h5',
+	            { className: 'title-sec' },
+	            'Analyzed Document'
 	          )
 	        ),
 	        _react2.default.createElement(
-	          "div",
-	          { className: "col s12 m12 l12 regular-text" },
-	          _react2.default.createElement("p", { dangerouslySetInnerHTML: this.createDangerousInnerHTML(lines.join('<br/>')) })
+	          'div',
+	          { className: 'col s12 m12 l12 regular-text' },
+	          _react2.default.createElement('p', { dangerouslySetInnerHTML: this.createDangerousInnerHTML(lines.join('<br/>')) })
 	        )
 	      );
 	    }

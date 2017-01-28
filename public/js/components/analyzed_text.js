@@ -14,8 +14,14 @@ class AnalyzedText extends React.Component {
   render() {
     let lines = [];
     let doc = this.props.doc;
-    let highlighted = this.props.highlighted;
-    
+
+    // Takes care of overlapping scenario
+    let highlighted = _.sortBy(this.props.highlighted, (word) => {
+      return word.split(' ').length;
+    });
+
+    _.reverse(highlighted);
+
     for (let l in doc) {
       let line = doc[l]
 
