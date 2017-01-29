@@ -10,6 +10,12 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/analytics', (req, res) => {
+  console.log('===================== Incoming API Request ===========================');
+  console.log('Request Type:  POST');
+  console.log('Request Route: /analytics');
+  console.log('Request Params: ' + JSON.stringify(req.body));
+  console.log('======================================================================');
+
   let doc = req.body.doc;
   res.send(analyze(doc));
 });
