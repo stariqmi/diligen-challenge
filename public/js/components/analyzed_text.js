@@ -26,7 +26,8 @@ class AnalyzedText extends React.Component {
       let line = doc[l]
 
       for (let h in highlighted) {
-        line = line.replace(highlighted[h], `<span class="highlighted">${highlighted[h]}</span>`);
+        let regex = new RegExp(highlighted[h], 'g');
+        line = line.replace(regex, `<span class="highlighted">${highlighted[h]}</span>`);
       }
 
       lines.push(line);
